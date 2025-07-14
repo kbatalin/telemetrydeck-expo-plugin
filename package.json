@@ -1,0 +1,66 @@
+{
+  "name": "telemetrydeck-expo-plugin",
+  "version": "1.0.0",
+  "description": "Plugin for TelemetryDeck React SDK for Expo that automatically enriches every signal sent with the standard environment, device, calendar and accessibility labels",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "prepublishOnly": "npm run build && npm test",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "telemetrydeck",
+    "expo",
+    "react-native",
+    "analytics",
+    "telemetry",
+    "plugin",
+    "sdk"
+  ],
+  "author": "Kirill Batalin",
+  "license": "MIT",
+  "homepage": "https://github.com/kbatalin/telemetrydeck-expo-plugin#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kbatalin/telemetrydeck-expo-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kbatalin/telemetrydeck-expo-plugin/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "@typedigital/telemetrydeck-react": "^0.4.1",
+    "expo": ">=49.0.0",
+    "expo-application": ">=5.0.0",
+    "expo-device": ">=5.0.0",
+    "expo-localization": ">=14.0.0",
+    "react-native": ">=0.70.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "@babel/preset-typescript": "^7.24.0",
+    "@testing-library/react-native": "^12.1.5",
+    "@types/jest": "^30.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.37.0",
+    "@typescript-eslint/parser": "^8.37.0",
+    "babel-jest": "^29.7.0",
+    "eslint": "^9.31.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.6.2",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  }
+}
