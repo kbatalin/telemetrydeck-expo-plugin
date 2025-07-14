@@ -11,7 +11,7 @@
 
 - **Plug-and-play extension** for TelemetryDeck React SDK — just add to `plugins` array
 - **Zero native code**: fully implemented in TypeScript, built on top of Expo SDK modules (`expo-application`, `expo-device`, `expo-localization`, etc.)
-- **60+ automatic parameters** added to every TelemetryDeck signal:
+- **40+ automatic parameters** added to every TelemetryDeck signal:
   - **AppInfo**: version, build number, version + build
   - **Device**: model, OS, architecture, brand, orientation, screen resolution/density, timezone, …
   - **SDK**: name, version, build type (debug / release)
