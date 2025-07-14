@@ -23,11 +23,8 @@ const getEnvironmentParameters = () => {
 
     const sdkName = "telemetrydeck-react";
     // The version is read from package.json when Metro bundles the app. If that fails, fallback to constant.
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore – require is available at bundle-time only
     const sdkVersion: string = (() => {
         try {
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
             return require("@typedigital/telemetrydeck-react/package.json").version as string;
         } catch {
             return "unknown";
