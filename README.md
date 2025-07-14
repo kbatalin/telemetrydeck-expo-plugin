@@ -4,6 +4,7 @@
 
 [![npm version](https://badge.fury.io/js/telemetrydeck-expo-plugin.svg)](https://badge.fury.io/js/telemetrydeck-expo-plugin)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![codecov](https://codecov.io/github/kbatalin/telemetrydeck-expo-plugin/graph/badge.svg?token=IXVQ8HZO72)](https://codecov.io/github/kbatalin/telemetrydeck-expo-plugin)
 
 ---
 
