@@ -87,7 +87,7 @@ export default [
       'coverage/',
       'babel.config.js',
       'jest.config.ts',
-      'eslint.config.js',
+      'eslint.config.mjs',
     ],
   },
 ]; 
