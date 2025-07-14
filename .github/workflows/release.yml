@@ -1,0 +1,86 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for changelog generation
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish to npm
+        run: npm publish --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+          # Get previous tag
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+
+          # Generate changelog
+          if [ -z "$PREV_TAG" ]; then
+            echo "## 🎉 Initial Release v$VERSION" > changelog.md
+            echo "" >> changelog.md
+            echo "This is the first release of TelemetryDeck Expo Plugin!" >> changelog.md
+          else
+            echo "## 🚀 Changes in v$VERSION" > changelog.md
+            echo "" >> changelog.md
+            
+            # Get commits since last tag
+            echo "### 📝 Commits:" >> changelog.md
+            git log --pretty=format:"- %s (%an)" $PREV_TAG..HEAD --no-merges >> changelog.md
+            echo "" >> changelog.md
+            echo "" >> changelog.md
+            
+            # Get merged PRs (if any)
+            echo "### 🔀 Merged Pull Requests:" >> changelog.md
+            git log --pretty=format:"%s" $PREV_TAG..HEAD --grep="Merge pull request" | while read line; do
+              if [[ $line == *"Merge pull request"* ]]; then
+                PR_NUM=$(echo "$line" | grep -o '#[0-9]*' | head -1)
+                PR_TITLE=$(echo "$line" | sed 's/.*Merge pull request #[0-9]* from [^/]*\/[^ ]* //')
+                if [ ! -z "$PR_NUM" ]; then
+                  echo "- $PR_TITLE ($PR_NUM)" >> changelog.md
+                fi
+              fi
+            done
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release v${{ steps.changelog.outputs.VERSION }}
+          body_path: changelog.md
+          draft: false
+          prerelease: false
+          generate_release_notes: true # This adds GitHub's auto-generated notes as well

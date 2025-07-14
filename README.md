@@ -168,13 +168,47 @@ npm run clean
 
 Test files are located in `src/__tests__/` and use Jest with babel-jest.
 
-### Publishing
+### Making a Release
 
-The package includes a `prepublishOnly` script that automatically builds and tests before publishing:
+This project uses automated releases via GitHub Actions. To create a new release:
+
+1. **Update the version** in `package.json`:
+
+   ```bash
+   npm version patch   # for bug fixes (1.0.0 → 1.0.1)
+   npm version minor   # for new features (1.0.0 → 1.1.0)
+   npm version major   # for breaking changes (1.0.0 → 2.0.0)
+   ```
+
+2. **Push the version tag**:
+
+   ```bash
+   git push origin v1.0.1  # replace with your version
+   ```
+
+3. **Automated workflow will**:
+   - Run tests and build the project
+   - Publish to npm with provenance
+   - **Auto-generate changelog** from commits and merged PRs
+   - Create a GitHub Release with release notes
+   - Update package badges and links
+
+**Note**: The changelog is automatically generated from:
+
+- All commits since the last release (with author names)
+- Merged pull requests (with PR numbers and titles)
+
+### Manual Publishing
+
+If you need to publish manually (not recommended):
 
 ```bash
+npm run build
+npm test
 npm publish
 ```
+
+The `prepublishOnly` script will automatically run build and tests before publishing.
 
 ---
 

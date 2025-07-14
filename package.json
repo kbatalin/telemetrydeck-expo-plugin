@@ -12,6 +12,8 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "prepublishOnly": "npm run build && npm test",
     "clean": "rm -rf dist"
   },
