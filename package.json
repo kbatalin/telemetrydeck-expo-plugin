@@ -1,7 +1,7 @@
 {
   "name": "telemetrydeck-expo-plugin",
   "version": "1.0.0",
-  "description": "Plugin for TelemetryDeck React SDK for Expo that automatically enriches every signal sent with the standard environment, device, calendar and accessibility labels",
+  "description": "Extension plugin for TelemetryDeck React SDK that automatically enriches every signal with rich Expo/React Native environment data",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

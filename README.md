@@ -1,6 +1,6 @@
 # TelemetryDeck Expo Plugin
 
-**Collect rich environment, device, calendar, accessibility and session context for every TelemetryDeck signal in your Expo & React Native apps — with a single line of code.**
+**An extension plugin for [TelemetryDeck React SDK](https://github.com/typedigital/telemetrydeck-react) that automatically enriches every signal with rich Expo/React Native environment data — with a single line of code.**
 
 [![npm version](https://badge.fury.io/js/telemetrydeck-expo-plugin.svg)](https://badge.fury.io/js/telemetrydeck-expo-plugin)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -9,19 +9,19 @@
 
 ## Features
 
-- **Plug-and-play**: import the plugin, add it to `plugins` when creating TelemetryDeck, done.
-- **Zero native code**: fully implemented in TypeScript, built on top of Expo SDK modules (`expo-application`, `expo-device`, `expo-localization`, etc.).
-- **60+ automatic parameters**:
-  - **AppInfo**: version, build number, version + build.
+- **Plug-and-play extension** for TelemetryDeck React SDK — just add to `plugins` array
+- **Zero native code**: fully implemented in TypeScript, built on top of Expo SDK modules (`expo-application`, `expo-device`, `expo-localization`, etc.)
+- **60+ automatic parameters** added to every TelemetryDeck signal:
+  - **AppInfo**: version, build number, version + build
   - **Device**: model, OS, architecture, brand, orientation, screen resolution/density, timezone, …
-  - **SDK**: name, version, build type (debug / release).
-  - **RunContext**: locale, target environment, marketplace source, side-loaded flag.
+  - **SDK**: name, version, build type (debug / release)
+  - **RunContext**: locale, target environment, marketplace source, side-loaded flag
   - **Accessibility & UserPreferences**: font scale, RTL / LTR, color scheme, bold text, reduce motion, …
-  - **Calendar**: day/week/month/quarter/year breakdown, hour of day, weekend flag.
-  - **Session**: session start timestamp (extendable for retention / acquisition metrics).
-- **Universal** — works on iOS, Android, Web (Expo Router, bare React Native\*).  
-  \*Device‐specific metrics gracefully degrade on unsupported platforms.
-- **MIT-licensed**, open-source.
+  - **Calendar**: day/week/month/quarter/year breakdown, hour of day, weekend flag
+  - **Session**: session start timestamp (extendable for retention / acquisition metrics)
+- **Universal** — works on iOS, Android, Web (Expo Router, bare React Native\*)  
+  \*Device‐specific metrics gracefully degrade on unsupported platforms
+- **MIT-licensed**, open-source
 
 ---
 
@@ -33,9 +33,9 @@ npm install telemetrydeck-expo-plugin
 yarn add telemetrydeck-expo-plugin
 ```
 
-### Peer Dependencies
+### Required Dependencies
 
-This plugin requires the following peer dependencies:
+This plugin extends the [TelemetryDeck React SDK](https://github.com/typedigital/telemetrydeck-react) and requires the following dependencies:
 
 ```json
 {
@@ -51,31 +51,32 @@ This plugin requires the following peer dependencies:
 Install them if not already present:
 
 ```bash
-npx expo install expo-application expo-device expo-localization
 npm install @typedigital/telemetrydeck-react
+npx expo install expo-application expo-device expo-localization
 ```
 
 ---
 
 ## Usage
 
+This plugin extends the TelemetryDeck React SDK by automatically adding Expo/React Native environment data to every signal. Simply add it to the `plugins` array when creating your TelemetryDeck instance:
+
 ```typescript
 import { createTelemetryDeck } from "@typedigital/telemetrydeck-react";
 import { expoPlugin } from "telemetrydeck-expo-plugin";
 
 const td = createTelemetryDeck({
-  appID: "YOUR-APP-ID",
-  clientUser: "anonymous",
-  salt: "random-salt",
-  plugins: [expoPlugin], // ← Add the plugin here
+  app: "YOUR-APP-ID",
+  user: "anonymous",
+  plugins: [expoPlugin], // ← Add the Expo plugin here
 });
 
-// Use TelemetryDeck as usual
+// Use TelemetryDeck as usual - all signals now include rich Expo context
 const { signal } = useTelemetryDeck();
 signal("app_launched");
 ```
 
-For more details on TelemetryDeck React SDK usage, see: https://github.com/typedigital/telemetrydeck-react
+For complete TelemetryDeck React SDK documentation, see: https://github.com/typedigital/telemetrydeck-react
 
 Every signal sent through TelemetryDeck will now automatically include rich context about the user's device, environment, and preferences — no extra work required.
 
@@ -83,7 +84,7 @@ Every signal sent through TelemetryDeck will now automatically include rich cont
 
 ## What Data is Collected
 
-The plugin automatically adds the following parameters to every signal:
+This plugin automatically enhances every TelemetryDeck signal with the following parameters:
 
 ### App Information
 
