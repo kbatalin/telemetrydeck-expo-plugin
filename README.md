@@ -20,7 +20,7 @@
   - **Accessibility & UserPreferences**: font scale, RTL / LTR, color scheme, bold text, reduce motion, …
   - **Calendar**: day/week/month/quarter/year breakdown, hour of day, weekend flag
   - **Session**: session start timestamp (extendable for retention / acquisition metrics)
-- **Universal** — works on iOS, Android, Web (Expo Router, bare React Native\*)  
+- **Universal** — works on iOS and Android (Expo\*)  
   \*Device‐specific metrics gracefully degrade on unsupported platforms
 - **MIT-licensed**, open-source
 
