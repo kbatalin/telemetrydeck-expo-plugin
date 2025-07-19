@@ -40,14 +40,15 @@
     "node": ">=18.0.0"
   },
   "peerDependencies": {
-    "@typedigital/telemetrydeck-react": "^0.4.1",
     "expo": ">=49.0.0",
     "expo-application": ">=5.0.0",
     "expo-device": ">=5.0.0",
     "expo-localization": ">=14.0.0",
     "react-native": ">=0.70.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@typedigital/telemetrydeck-react": "^0.4.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.24.0",
     "@babel/preset-env": "^7.24.0",
