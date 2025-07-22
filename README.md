@@ -1,6 +1,6 @@
 # TelemetryDeck Expo Plugin
 
-**An extension plugin for [TelemetryDeck React SDK](https://github.com/typedigital/telemetrydeck-react) that automatically enriches every signal with rich Expo/React Native environment data — with a single line of code.**
+**An extension plugin for [TelemetryDeck React SDK](https://github.com/typedigital/telemetrydeck-react) that automatically enriches every signal with rich Expo/React Native environment data and advanced session tracking — with just a few lines of code.**
 
 [![npm version](https://badge.fury.io/js/telemetrydeck-expo-plugin.svg)](https://badge.fury.io/js/telemetrydeck-expo-plugin)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -19,7 +19,9 @@
   - **RunContext**: locale, target environment, marketplace source, side-loaded flag
   - **Accessibility & UserPreferences**: font scale, RTL / LTR, color scheme, bold text, reduce motion, …
   - **Calendar**: day/week/month/quarter/year breakdown, hour of day, weekend flag
-  - **Session**: session start timestamp (extendable for retention / acquisition metrics)
+  - **Session & Retention**: session tracking, distinct days used, retention metrics, acquisition analytics
+- **Advanced Session Tracking**: automatic app lifecycle monitoring, persistent storage, 5-minute session timeout
+- **Retention Analytics**: first session date, lifetime sessions, average duration, distinct days used, monthly retention
 - **Universal** — works on iOS and Android (Expo\*)  
   \*Device‐specific metrics gracefully degrade on unsupported platforms
 - **MIT-licensed**, open-source
@@ -41,10 +43,12 @@ This plugin extends the [TelemetryDeck React SDK](https://github.com/typedigital
 ```json
 {
   "@typedigital/telemetrydeck-react": "^0.4.1",
+  "@react-native-async-storage/async-storage": ">=1.0.0",
   "expo": ">=49.0.0",
   "expo-application": ">=5.0.0",
   "expo-device": ">=5.0.0",
   "expo-localization": ">=14.0.0",
+  "react": ">=16.8.0",
   "react-native": ">=0.70.0"
 }
 ```
@@ -52,13 +56,15 @@ This plugin extends the [TelemetryDeck React SDK](https://github.com/typedigital
 Install them if not already present:
 
 ```bash
-npm install @typedigital/telemetrydeck-react
+npm install @typedigital/telemetrydeck-react @react-native-async-storage/async-storage
 npx expo install expo-application expo-device expo-localization
 ```
 
 ---
 
 ## Usage
+
+### Basic Setup
 
 This plugin extends the TelemetryDeck React SDK by automatically adding Expo/React Native environment data to every signal. Simply add it to the `plugins` array when creating your TelemetryDeck instance:
 
@@ -77,9 +83,48 @@ const { signal } = useTelemetryDeck();
 signal("app_launched");
 ```
 
+### Session Tracking (Optional)
+
+For advanced session tracking and retention analytics, add the session enhancement plugin and initialize session tracking:
+
+```typescript
+import { createTelemetryDeck } from "@typedigital/telemetrydeck-react";
+import {
+  expoPlugin,
+  sessionEnhancementPlugin,
+  initSessionTracking,
+} from "telemetrydeck-expo-plugin";
+
+const td = createTelemetryDeck({
+  app: "YOUR-APP-ID",
+  user: "anonymous",
+  plugins: [
+    expoPlugin,
+    sessionEnhancementPlugin, // ← Add session enhancement
+  ],
+});
+
+// Initialize session tracking
+initSessionTracking(td);
+```
+
+### React Hook (Recommended)
+
+Use the React hook for automatic session tracking setup:
+
+```typescript
+import { useSessionTracking } from "telemetrydeck-expo-plugin";
+
+function App() {
+  useSessionTracking(); // ← Automatically handles session tracking
+
+  return <YourApp />;
+}
+```
+
 For complete TelemetryDeck React SDK documentation, see: https://github.com/typedigital/telemetrydeck-react
 
-Every signal sent through TelemetryDeck will now automatically include rich context about the user's device, environment, and preferences — no extra work required.
+Every signal sent through TelemetryDeck will now automatically include rich context about the user's device, environment, preferences, and session metrics — no extra work required.
 
 ---
 
@@ -142,6 +187,20 @@ This plugin automatically enhances every TelemetryDeck signal with the following
 ### Session Information
 
 - `TelemetryDeck.Session.started` - Session start timestamp
+
+### Session Tracking & Retention
+
+- `TelemetryDeck.Acquisition.FirstSessionDate` - Date of first app usage
+- `TelemetryDeck.Retention.DistinctDaysUsed` - Number of distinct days user used the app
+- `TelemetryDeck.Retention.DistinctDaysUsedLastMonth` - Days used in last month
+- `TelemetryDeck.Retention.TotalSessionsCount` - Lifetime number of sessions
+- `TelemetryDeck.Retention.AverageSessionSeconds` - Average session duration
+- `TelemetryDeck.Retention.PreviousSessionSeconds` - Duration of previous session
+
+**Automatic Session Signals:**
+
+- `TelemetryDeck.Session.started` - Sent when a new session begins
+- `TelemetryDeck.Acquisition.newInstallDetected` - Sent on first app launch
 
 ---
 

@@ -137,16 +137,16 @@ const getSessionParameters = () => {
 
 // Pre-fetch async accessibility information once and cache it for later use.
 const accessibilityCache: Record<string, unknown> = {};
-AccessibilityInfo.isBoldTextEnabled?.().then((enabled) => {
+AccessibilityInfo.isBoldTextEnabled?.().then((enabled: boolean) => {
     accessibilityCache["TelemetryDeck.Accessibility.isBoldTextEnabled"] = enabled;
 });
-AccessibilityInfo.isInvertColorsEnabled?.().then((enabled) => {
+AccessibilityInfo.isInvertColorsEnabled?.().then((enabled: boolean) => {
     accessibilityCache["TelemetryDeck.Accessibility.isInvertColorsEnabled"] = enabled;
 });
-AccessibilityInfo.isReduceMotionEnabled?.().then((enabled) => {
+AccessibilityInfo.isReduceMotionEnabled?.().then((enabled: boolean) => {
     accessibilityCache["TelemetryDeck.Accessibility.isReduceMotionEnabled"] = enabled;
 });
-AccessibilityInfo.isReduceTransparencyEnabled?.().then((enabled) => {
+AccessibilityInfo.isReduceTransparencyEnabled?.().then((enabled: boolean) => {
     accessibilityCache["TelemetryDeck.Accessibility.isReduceTransparencyEnabled"] = enabled;
 });
 // fontWeightAdjustment & shouldDifferentiateWithoutColor are Android/iOS-specific and
@@ -179,4 +179,13 @@ const expoPlugin: TelemetryDeckReactSDKPlugin =
         };
     };
 
+// Re-export existing plugin
 export { expoPlugin };
+
+// Session tracking exports
+export { sessionEnhancementPlugin } from "./sessionPlugin";
+export { initSessionTracking, cleanupSessionTracking } from "./init";
+export { useSessionTracking } from "./hooks";
+
+// Export types for advanced usage
+export type { StoredSession, TrackingState } from "./session";
